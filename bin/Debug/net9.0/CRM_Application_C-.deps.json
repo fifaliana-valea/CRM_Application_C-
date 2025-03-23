@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v9.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v9.0": {
+      "CRM_Application_C-/1.0.0": {
+        "runtime": {
+          "CRM_Application_C-.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "CRM_Application_C-/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
