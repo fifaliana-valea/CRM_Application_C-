@@ -32,7 +32,7 @@ namespace crmcsharp.Services
             }
         }
 
-        public async Task<bool> DeleteTicket(int ticketId)
+       public async Task<bool> DeleteTicket(int ticketId)
         {
             try
             {
@@ -42,13 +42,10 @@ namespace crmcsharp.Services
                 {
                     return true; 
                 }
-                else if (response.StatusCode == System.Net.HttpStatusCode.NotFound)
-                {
-                    throw new ApplicationException("Ticket non trouvé.");
-                }
                 else
                 {
-                    throw new ApplicationException($"Erreur lors de la suppression du ticket. Code de statut : {response.StatusCode}");
+                    string content = await response.Content.ReadAsStringAsync();
+                    throw new ApplicationException($"Erreur lors de la suppression du ticket. Code: {(int)response.StatusCode} - {response.ReasonPhrase}. Contenu: {content}");
                 }
             }
             catch (Exception ex)
@@ -56,6 +53,7 @@ namespace crmcsharp.Services
                 throw new ApplicationException("Erreur lors de la suppression du ticket.", ex);
             }
         }
+
 
         public async Task<TicketHisto> GetTicketByIdAsync(int id)
         {
