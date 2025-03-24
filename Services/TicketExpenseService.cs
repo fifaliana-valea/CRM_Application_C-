@@ -1,0 +1,91 @@
+using System;
+using System.Net.Http;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using crmcsharp.Models;
+
+namespace crmcsharp.Services
+{
+    public class TicketExpenseService
+    {
+        private readonly HttpClient _httpClient;
+
+        private readonly ILogger<TicketExpenseService> _logger;
+
+
+        public TicketExpenseService(HttpClient httpClient, ILogger<TicketExpenseService> logger)
+        {
+            _httpClient = httpClient;
+            _httpClient.BaseAddress = new Uri("http://localhost:8080/api/ticket-expenses/");
+            _logger = logger;
+
+        }
+
+        // Récupérer une dépense par son ID
+        public async Task<TicketExpense> GetByIdAsync(int id)
+        {
+            try
+            {
+                _logger.LogInformation($"Envoi d'une requête GET à l'URL : {_httpClient.BaseAddress}{id}");
+
+                string response = await _httpClient.GetStringAsync($"{id}");
+
+                _logger.LogInformation("Réponse reçue :");
+                _logger.LogInformation(response);
+
+                TicketExpense ticketExpense = JsonConvert.DeserializeObject<TicketExpense>(response);
+
+                _logger.LogInformation("Détails de la dépense :");
+                _logger.LogInformation($"ID: {ticketExpense.Id}");
+                _logger.LogInformation($"Montant: {ticketExpense.Amount}");
+                _logger.LogInformation($"Date de création: {ticketExpense.CreatedAt}");
+
+                return ticketExpense;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Erreur lors de la récupération de la dépense : {ex.Message}");
+                throw new ApplicationException("Erreur lors de la récupération de la dépense.", ex);
+            }
+        }
+       
+       
+        public async Task<TicketExpense> UpdateAsync(int id, TicketExpense updatedTicketExpense)
+        {
+            try
+            {
+                // Créer le contenu JSON à partir de l'objet updatedTicketExpense
+                var jsonContent = JsonContent.Create(updatedTicketExpense);
+
+                // Appeler l'API Java pour mettre à jour la dépense
+                var response = await _httpClient.PutAsync($"http://localhost:8080/api/ticket-expenses/modif/{id}", jsonContent);
+
+                // Vérifier si la requête a réussi
+                if (response.IsSuccessStatusCode)
+                {
+                    // Désérialiser la réponse en TicketExpense
+                    var updatedExpense = await response.Content.ReadFromJsonAsync<TicketExpense>();
+                    return updatedExpense;
+                }
+                else
+                {
+                    // Lire le message d'erreur de la réponse
+                    var errorContent = await response.Content.ReadAsStringAsync();
+                    throw new HttpRequestException($"Erreur HTTP : {response.StatusCode}, Détails : {errorContent}");
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                // Journaliser l'erreur et relancer une exception personnalisée
+                _logger.LogError(ex, "Erreur lors de la communication avec l'API Java.");
+                throw new Exception("Erreur lors de la communication avec l'API Java.", ex);
+            }
+            catch (Exception ex)
+            {
+                // Capturer toute autre exception inattendue
+                _logger.LogError(ex, "Une erreur inattendue s'est produite.");
+                throw new Exception("Une erreur inattendue s'est produite.", ex);
+            }
+        }
+    }
+}
