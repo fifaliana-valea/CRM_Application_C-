@@ -77,25 +77,5 @@ namespace crmcsharp.Controllers
             return RedirectToAction("Index");
         }
 
-        // public async Task<IActionResult> Details(int id)
-        // {
-        //     try
-        //     {
-        //         var ticket = await _ticketService.GetTicketByIdAsync(id);
-
-        //         if (ticket == null)
-        //         {
-        //             TempData["Error"] = "Ticket non trouvé.";
-        //             return RedirectToAction("Index");
-        //         }
-
-        //         return View(ticket);
-        //     }
-        //     catch (Exception ex)
-        //     {
-        //         TempData["Error"] = $"Erreur lors de la récupération des détails du ticket : {ex.Message}";
-        //         return RedirectToAction("Index");
-        //     }
-        // }
     }
 }

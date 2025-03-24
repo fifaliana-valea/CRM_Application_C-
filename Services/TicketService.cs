@@ -33,26 +33,26 @@ namespace crmcsharp.Services
         }
 
        public async Task<bool> DeleteTicket(int ticketId)
-{
-    try
-    {
-        HttpResponseMessage response = await _httpClient.DeleteAsync($"delete-ticket/{ticketId}");
+        {
+            try
+            {
+                HttpResponseMessage response = await _httpClient.DeleteAsync($"delete-ticket/{ticketId}");
 
-        if (response.IsSuccessStatusCode)
-        {
-            return true; 
+                if (response.IsSuccessStatusCode)
+                {
+                    return true; 
+                }
+                else
+                {
+                    string content = await response.Content.ReadAsStringAsync();
+                    throw new ApplicationException($"Erreur lors de la suppression du ticket. Code: {(int)response.StatusCode} - {response.ReasonPhrase}. Contenu: {content}");
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new ApplicationException("Erreur lors de la suppression du ticket.", ex);
+            }
         }
-        else
-        {
-            string content = await response.Content.ReadAsStringAsync();
-            throw new ApplicationException($"Erreur lors de la suppression du ticket. Code: {(int)response.StatusCode} - {response.ReasonPhrase}. Contenu: {content}");
-        }
-    }
-    catch (Exception ex)
-    {
-        throw new ApplicationException("Erreur lors de la suppression du ticket.", ex);
-    }
-}
 
 
         public async Task<TicketHisto> GetTicketByIdAsync(int id)
