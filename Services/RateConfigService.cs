@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using crmcsharp.Models;
+using crmcsharp.Models.entity;
 using System.Text.Json;
 
 namespace crmcsharp.Services

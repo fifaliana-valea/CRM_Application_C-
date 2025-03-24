@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace crmcsharp.Models
+namespace crmcsharp.Models.entity
 {
     public class RateConfigViewModel
     {

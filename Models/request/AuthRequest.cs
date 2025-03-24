@@ -1,5 +1,5 @@
 // Models/LoginModel.cs
-namespace crmC_.Models.request
+namespace crmcsharp.Models.request
 {
     using System.Text.Json.Serialization;
 

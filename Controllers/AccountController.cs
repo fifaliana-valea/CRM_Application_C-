@@ -1,9 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
-using crmC_.service;
-using crmC_.Models.request;
+using crmcsharp.Services;
+using crmcsharp.Models.request;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 
-namespace crmC_.Controllers
+namespace crmcsharp.Controllers
 {
     public class AccountController : Controller
     {
@@ -36,6 +39,19 @@ namespace crmC_.Controllers
                 ModelState.AddModelError("", "Invalid username or password.");
                 return View();
             }
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Logout()
+        {
+            // Effacer le token de session
+            HttpContext.Session.Remove("AuthToken");
+
+            // Effacer toutes les données de session
+            HttpContext.Session.Clear();
+
+            TempData["Message"] = "Vous avez été déconnecté avec succès.";
+            return RedirectToAction("Login", "Account");
         }
     }
 }

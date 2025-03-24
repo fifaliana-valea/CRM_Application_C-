@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace crmcsharp.Models;    
+namespace crmcsharp.Models.entity;    
 public class User
 {
     public int Id { get; set; }

@@ -2,9 +2,9 @@ using System.Net.Http;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using crmC_.Models.request;
+using crmcsharp.Models.request;
 
-namespace crmC_.service
+namespace crmcsharp.Services
 {
     public class AccountService
     {

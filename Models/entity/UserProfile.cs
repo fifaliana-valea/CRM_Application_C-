@@ -1,4 +1,4 @@
-namespace crmcsharp.Models
+namespace crmcsharp.Models.entity
 {
     public class UserProfile
     {

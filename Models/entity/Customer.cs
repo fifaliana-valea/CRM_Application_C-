@@ -1,6 +1,6 @@
 using System;
 
-namespace crmcsharp.Models;
+namespace crmcsharp.Models.entity;
 public class Customer
 {
     public int CustomerId { get; set; }
