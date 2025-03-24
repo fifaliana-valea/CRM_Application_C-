@@ -44,17 +44,17 @@
         "net9.0": {
           "targetAlias": "net9.0",
           "dependencies": {
-            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+            "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
-              "version": "[9.0.3, )"
+              "version": "[9.0.0, )"
             },
-            "Microsoft.IdentityModel.Tokens": {
+            "Microsoft.Extensions.Logging.Console": {
               "target": "Package",
-              "version": "[8.7.0, )"
+              "version": "[9.0.0, )"
             },
-            "System.IdentityModel.Tokens.Jwt": {
+            "Newtonsoft.Json": {
               "target": "Package",
-              "version": "[8.7.0, )"
+              "version": "[13.0.3, )"
             }
           },
           "imports": [

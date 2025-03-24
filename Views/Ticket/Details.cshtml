@@ -1,0 +1,77 @@
+@model crmcsharp.Models.TicketHisto
+
+@{
+    ViewData["Title"] = "Détails du ticket";
+}
+
+<h1>Détails du ticket</h1>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">
+        @TempData["Message"]
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">
+        @TempData["Error"]
+    </div>
+}
+
+<div>
+    <h4>Ticket #@Model.Id</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Sujet</dt>
+        <dd class="col-sm-10">@Model.Subject</dd>
+
+        <dt class="col-sm-2">Description</dt>
+        <dd class="col-sm-10">@Model.Description</dd>
+
+        <dt class="col-sm-2">Statut</dt>
+        <dd class="col-sm-10">@Model.Status</dd>
+
+        <dt class="col-sm-2">Priorité</dt>
+        <dd class="col-sm-10">@Model.Priority</dd>
+
+        <dt class="col-sm-2">Manager</dt>
+        <dd class="col-sm-10">@Model.Manager?.Username</dd>
+
+        <dt class="col-sm-2">Employé</dt>
+        <dd class="col-sm-10">@Model.Employee?.Username</dd>
+
+        <dt class="col-sm-2">Client</dt>
+        <dd class="col-sm-10">@Model.Customer?.Name</dd>
+
+        <dt class="col-sm-2">Date de création</dt>
+        <dd class="col-sm-10">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</dd>
+
+        <dt class="col-sm-2">Date de suppression</dt>
+        <dd class="col-sm-10">@(Model.DeleteAt?.ToString("dd/MM/yyyy HH:mm") ?? "Non supprimé")</dd>
+    </dl>
+</div>
+
+<!-- Section pour la dépense la plus récente -->
+<h3>Dépense associée</h3>
+@if (ViewBag.LatestExpense != null)
+{
+    <dl class="row">
+        <dt class="col-sm-2">Montant</dt>
+        <dd class="col-sm-10">@ViewBag.LatestExpense.Amount</dd>
+
+        <dt class="col-sm-2">Date de création</dt>
+        <dd class="col-sm-10">@ViewBag.LatestExpense.CreatedAt.ToString("dd/MM/yyyy HH:mm")</dd>
+    </dl>
+    <a class="btn btn-warning" asp-controller="TicketExpense" asp-action="Edit" asp-route-id="@ViewBag.LatestExpense.Id" asp-route-ticketId="@ViewBag.LatestExpense.TicketHisto.Id">Modifier la dépense</a>
+}
+
+else
+{
+    <p>Aucune dépense trouvée.</p>
+}
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>
+</div>
