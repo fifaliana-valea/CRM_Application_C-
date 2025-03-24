@@ -1,0 +1,34 @@
+@model crmcsharp.Models.TicketExpenseFormModel
+
+@{
+    ViewData["Title"] = "Modifier la dépense";
+}
+
+<h2>Modifier la dépense</h2>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger">@TempData["Error"]</div>
+}
+
+<form asp-action="Update" asp-controller="TicketExpense" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" asp-for="TicketId" />
+
+    <div class="form-group">
+        <label asp-for="Amount">Montant</label>
+        <input asp-for="Amount" class="form-control" />
+        <span asp-validation-for="Amount" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Mettre à jour</button>
+    <a asp-controller="Ticket" asp-action="Details" asp-route-id="@Model.TicketId" class="btn btn-secondary">Annuler</a>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
