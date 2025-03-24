@@ -2,7 +2,7 @@ using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using crmcsharp.Models;
+using crmcsharp.Models.entity;
 
 namespace crmcsharp.Services
 {

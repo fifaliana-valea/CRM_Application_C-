@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using crmcsharp.Services;
-using crmcsharp.Models;
+using crmcsharp.Models.entity;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 

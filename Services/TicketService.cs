@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using crmcsharp.Models;
+using crmcsharp.Models.entity;
 
 namespace crmcsharp.Services
 {
@@ -20,7 +20,7 @@ namespace crmcsharp.Services
         public async Task<List<TicketHisto>> GetTicketsAsync()
         {
             try
-            {
+            { 
                 string response = await _httpClient.GetStringAsync("all");
                 List<TicketHisto> ticketHistos = JsonConvert.DeserializeObject<List<TicketHisto>>(response);
                 return ticketHistos;
