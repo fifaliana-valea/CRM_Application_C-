@@ -1,0 +1,72 @@
+@* Views/Dashboard/Index.cshtml *@
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1>CRM Dashboard</h1>
+
+<h2>Clients</h2>
+<p>Nombre de clients : @ViewBag.Customers.Count</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var customer in ViewBag.Customers)
+        {
+            <tr>
+                <td>@customer.CustomerId</td>
+                <td>@customer.Name</td>
+                <td>@customer.Email</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Leads</h2>
+<p>Nombre de leads : @ViewBag.Leads.Count</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var lead in ViewBag.Leads)
+        {
+            <tr>
+                <td>@lead.Id</td>
+                <td>@lead.Name</td>
+                <td>@lead.Email</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<h2>Tickets</h2>
+<p>Nombre de tickets : @ViewBag.Tickets.Count</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Titre</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var ticket in ViewBag.Tickets)
+        {
+            <tr>
+                <td>@ticket.Id</td>
+                <td>@ticket.Title</td>
+                <td>@ticket.Description</td>
+            </tr>
+        }
+    </tbody>
+</table>

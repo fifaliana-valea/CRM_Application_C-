@@ -1,8 +1,8 @@
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using CRM_Application_C_.Models;
+using crmcsharp.Models;
 
-namespace CRM_Application_C_.Controllers;
+namespace crmcsharp.Controllers;
 
 public class HomeController : Controller
 {

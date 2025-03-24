@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "AvV56bdKVlo=",
+  "dgSpecHash": "6IoZHp7j5Mo=",
   "success": true,
   "projectFilePath": "E:\\S5\\Evaluation\\CRM_Application_C-\\CRM_Application_C-.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\Fifaliana\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512"
+  ],
   "logs": []
 }
