@@ -50,8 +50,6 @@ E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\rriyamh0x8-x0q3z
 E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\8y9j2j9gjp-ttgo8qnofa.gz
 E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\7zxhqvbjhm-87fc7y1x7t.gz
 E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\c81j9nj5wi-mlv21k5csn.gz
-E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\8eufd179xb-x6ilvuram6.gz
-E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\r8lg61733s-x6ilvuram6.gz
 E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\staticwebassets.build.json
 E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\staticwebassets.development.json
 E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\staticwebassets.build.endpoints.json
@@ -99,3 +97,5 @@ E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\xo1pfnyckw-m9qm4
 E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\ppbrm7kvwo-jjsuc0puko.gz
 E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\g6md9ji25w-9vr69e8ynj.gz
 E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\CRM_Appl.DBC8D786.Up2Date
+E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\8eufd179xb-r7mebgu46p.gz
+E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\r8lg61733s-r7mebgu46p.gz

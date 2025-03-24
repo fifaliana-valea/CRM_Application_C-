@@ -43,11 +43,12 @@
                 <td>@ticket.Manager?.Username</td>
                 <td>@ticket.Customer?.Name</td>
                 <td>
-                    <!-- Bouton "Voir les détails" -->
                     <a asp-action="Details" asp-route-id="@ticket.Id" class="btn btn-info">Voir les détails</a>
 
                     <!-- Formulaire de suppression -->
-                    <form asp-action="Delete" asp-controller="Ticket" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce ticket ?');" style="display:inline;">
+                    <form asp-action="Delete" asp-controller="Ticket" method="post" 
+                          onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce ticket ?');"
+                          style="display:inline;">
                         <input type="hidden" name="ticketId" value="@ticket.Id" />
                         <button type="submit" class="btn btn-danger">Supprimer</button>
                     </form>
