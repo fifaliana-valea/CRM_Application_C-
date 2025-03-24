@@ -4,13 +4,13 @@
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\CRM_Application_C-.x6ilvuram6.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"integrity","Value":"sha256-p8nTF6BEURbcH\u002Bz3bkaT8yFPz\u002BJURLhrbsiY8DWSLiQ="}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1136"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022p8nTF6BEURbcH\u002Bz3bkaT8yFPz\u002BJURLhrbsiY8DWSLiQ=\u0022"},{"Name":"Last-Modified","Value":"Sun, 23 Mar 2025 10:51:12 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"no-cache"},{"Name":"Content-Length","Value":"1136"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022p8nTF6BEURbcH\u002Bz3bkaT8yFPz\u002BJURLhrbsiY8DWSLiQ=\u0022"},{"Name":"Last-Modified","Value":"Mon, 24 Mar 2025 07:52:29 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/CRM_Application_C-/CRM_Application_C-.x6ilvuram6.bundle.scp.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\CRM_Application_C-.x6ilvuram6.bundle.scp.css'))</AssetFile>
       <Selectors><![CDATA[[]]]></Selectors>
       <EndpointProperties><![CDATA[[{"Name":"fingerprint","Value":"x6ilvuram6"},{"Name":"integrity","Value":"sha256-p8nTF6BEURbcH\u002Bz3bkaT8yFPz\u002BJURLhrbsiY8DWSLiQ="},{"Name":"label","Value":"_content/CRM_Application_C-/CRM_Application_C-.bundle.scp.css"}]]]></EndpointProperties>
-      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1136"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022p8nTF6BEURbcH\u002Bz3bkaT8yFPz\u002BJURLhrbsiY8DWSLiQ=\u0022"},{"Name":"Last-Modified","Value":"Sun, 23 Mar 2025 10:51:12 GMT"}]]]></ResponseHeaders>
+      <ResponseHeaders><![CDATA[[{"Name":"Accept-Ranges","Value":"bytes"},{"Name":"Cache-Control","Value":"max-age=31536000, immutable"},{"Name":"Content-Length","Value":"1136"},{"Name":"Content-Type","Value":"text/css"},{"Name":"ETag","Value":"\u0022p8nTF6BEURbcH\u002Bz3bkaT8yFPz\u002BJURLhrbsiY8DWSLiQ=\u0022"},{"Name":"Last-Modified","Value":"Mon, 24 Mar 2025 07:52:29 GMT"}]]]></ResponseHeaders>
     </StaticWebAssetEndpoint>
     <StaticWebAssetEndpoint Include="_content/CRM_Application_C-/css/site.b9sayid5wm.css">
       <AssetFile>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)..\staticwebassets\css\site.css'))</AssetFile>
