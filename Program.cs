@@ -15,6 +15,7 @@ builder.Services.AddScoped<TicketService>(); // Si TicketService ne nécessite p
 builder.Services.AddHttpClient<TicketExpenseService>(); // Si TicketService utilise HttpClient
 // OU
 builder.Services.AddScoped<TicketExpenseService>(); // Si TicketService ne nécessite pas HttpClient
+builder.Services.AddScoped<RateConfigService>();
 
 var app = builder.Build();
 
