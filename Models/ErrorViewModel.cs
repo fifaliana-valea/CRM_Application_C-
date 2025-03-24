@@ -1,4 +1,4 @@
-namespace CRM_Application_C_.Models;
+namespace crmcsharp.Models;
 
 public class ErrorViewModel
 {
