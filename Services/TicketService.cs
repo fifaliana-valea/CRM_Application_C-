@@ -20,7 +20,7 @@ namespace crmcsharp.Services
         public async Task<List<TicketHisto>> GetTicketsAsync()
         {
             try
-            { 
+            {
                 string response = await _httpClient.GetStringAsync("all");
                 List<TicketHisto> ticketHistos = JsonConvert.DeserializeObject<List<TicketHisto>>(response);
                 return ticketHistos;
@@ -40,7 +40,7 @@ namespace crmcsharp.Services
 
                 if (response.IsSuccessStatusCode)
                 {
-                    return true; 
+                    return true;
                 }
                 else
                 {
