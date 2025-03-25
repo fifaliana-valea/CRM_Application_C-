@@ -17,6 +17,8 @@ builder.Services.AddHttpClient<TicketExpenseService>(); // Si TicketService util
 // OU
 builder.Services.AddScoped<TicketExpenseService>(); // Si TicketService ne nécessite pas HttpClient
 builder.Services.AddScoped<RateConfigService>();
+builder.Services.AddScoped<LeadExpenseService>(); // Si TicketService ne nécessite pas HttpClient
+builder.Services.AddScoped<LeadService>();
 builder.Services.AddSession(options =>
 {
     options.Cookie.HttpOnly = true; // Sécuriser le cookie

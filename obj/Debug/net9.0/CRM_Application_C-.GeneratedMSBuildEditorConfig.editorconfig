@@ -28,6 +28,18 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[E:/S5/Evaluation/CRM_Application_C-/Views/LeadExpense/Edit.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhZEV4cGVuc2VcRWRpdC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/S5/Evaluation/CRM_Application_C-/Views/Lead/Details.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhZFxEZXRhaWxzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[E:/S5/Evaluation/CRM_Application_C-/Views/Lead/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcTGVhZFxJbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
 [E:/S5/Evaluation/CRM_Application_C-/Views/RateConfigMvc/Create.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcUmF0ZUNvbmZpZ012Y1xDcmVhdGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 

@@ -1,0 +1,57 @@
+@model List<crmcsharp.Models.entity.TriggerLeadHisto>
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Liste des Leads";
+}
+
+@if (TempData["Message"] != null)
+{
+        <div class="alert alert-success">
+        @TempData["Message"]
+        </div>
+}
+
+@if (TempData["Error"] != null)
+{
+        <div class="alert alert-danger">
+        @TempData["Error"]
+        </div>
+}
+
+<h1>Liste des Leads</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Nom</th>
+            <th>Statut</th>
+            <th>Téléphone</th>
+            <th>Employee</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var triggerLeadHisto in Model)
+        {
+                <tr>
+                <td>@triggerLeadHisto.Id</td>
+                <td>@triggerLeadHisto.Name</td>
+                <td>@triggerLeadHisto.Status</td>
+                <td>@triggerLeadHisto.Phone</td>
+                <td>@triggerLeadHisto.Employee.Username</td>
+                    <td>
+                        <!-- Bouton "Voir les détails" -->
+                    <a asp-action="Details" asp-route-id="@triggerLeadHisto.Id" class="btn btn-info">Voir les détails</a>
+
+                        <!-- Formulaire de suppression -->
+                        <form asp-action="Delete" asp-controller="Lead" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce lead ?');" style="display:inline;">
+                        <input type="hidden" name="leadId" value="@triggerLeadHisto.Id" />
+                            <button type="submit" class="btn btn-danger">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
+        }
+    </tbody>
+</table>
