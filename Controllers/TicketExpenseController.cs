@@ -20,7 +20,7 @@ namespace crmcsharp.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int id, int ticketId)
         {
-            var expense = await _ticketExpenseService.GetByIdAsync(id);
+            var expense = await _ticketExpenseService.GetByIdAsync(ticketId);
             if (expense == null)
             {
                 TempData["Error"] = "Dépense introuvable.";
@@ -55,7 +55,7 @@ namespace crmcsharp.Controllers
 
 
                 // Appelle le service pour mettre à jour la dépense
-                var result = await _ticketExpenseService.UpdateAsync(formModel.Id, updatedExpense);
+                var result = await _ticketExpenseService.UpdateAsync(formModel.TicketId, updatedExpense);
 
                 // Vérifie si la mise à jour a réussi
                 if (result == null)
