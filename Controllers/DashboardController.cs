@@ -91,6 +91,8 @@ public class DashboardController : Controller
                 BudgetCount = budgets.Count,
                 TotalBudget = totalBudget,
                 TotalExpenses = totalExpenses,
+                TotalLeadsExpenses = totalLeadExpense,
+                TotalTicketExpenses = totalTicketExpense,
                 BudgetBalance = budgetBalance,
                 PriorityStats = priorityStats,
                 RecentLeads = leads.OrderByDescending(l => l.CreatedAt).Take(5).ToList(),
@@ -142,19 +144,25 @@ public class DashboardController : Controller
             return RedirectToAction("Error", "Home");
         }
     }
+
+
 }
 
 public class DashboardViewModel
 {
-    public DateTime StartDate { get; set; }
-    public DateTime EndDate { get; set; }
+    public DateTime? StartDate { get; set; }
+    public DateTime? EndDate { get; set; }
     
     public int LeadCount { get; set; }
     public int TicketCount { get; set; }
     public int BudgetCount { get; set; }
     
     public decimal TotalBudget { get; set; }
+    public decimal TotalLeadsExpenses { get; set; }
+
     public decimal TotalExpenses { get; set; }
+
+    public decimal TotalTicketExpenses { get; set; }
     public decimal BudgetBalance { get; set; }
     
     // Add the missing PriorityStats property
