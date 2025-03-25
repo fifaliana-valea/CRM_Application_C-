@@ -45,16 +45,16 @@
                     </h5>
                 </div>
                 <div class="card-body">
-                    <form method="get" class="form-inline">
+                   <form method="get" class="form-inline">
                         <div class="form-group mr-3">
                             <label for="date1" class="mr-2">Du</label>
                             <input type="date" class="form-control" id="date1" name="date1" 
-                                   value="@Model.StartDate.ToString("yyyy-MM-dd")">
+                                value="@(Model.StartDate.HasValue ? Model.StartDate.Value.ToString("yyyy-MM-dd") : "")" />
                         </div>
                         <div class="form-group mr-3">
                             <label for="date2" class="mr-2">Au</label>
                             <input type="date" class="form-control" id="date2" name="date2" 
-                                   value="@Model.EndDate.ToString("yyyy-MM-dd")">
+                                value="@(Model.EndDate.HasValue ? Model.EndDate.Value.ToString("yyyy-MM-dd") : "")" />
                         </div>
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-filter"></i> Filtrer
@@ -221,22 +221,35 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-white">
                     <h6 class="m-0 font-weight-bold text-info">Derniers Leads</h6>
-                    <a asp-action="Details" asp-route-type="leads" asp-route-date1="@Model.StartDate" asp-route-date2="@Model.EndDate" class="btn btn-sm btn-info">Voir tout</a>
+                    @if (Model.RecentLeads?.Any() == true)
+                    {
+                        <a asp-action="Details" asp-route-type="leads" 
+                        asp-route-date1="@(Model.StartDate?.ToString("yyyy-MM-dd"))" 
+                        asp-route-date2="@(Model.EndDate?.ToString("yyyy-MM-dd"))" 
+                        class="btn btn-sm btn-info">Voir tout</a>
+                    }
                 </div>
                 <div class="card-body">
-                    <div class="list-group">
-                        @foreach (var lead in Model.RecentLeads)
-                        {
-                            <div class="list-group-item list-group-item-action flex-column align-items-start">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-1">@lead.Name</h6>
-                                    <small>@lead.CreatedAt.ToString("dd/MM/yyyy")</small>
+                    @if (Model.RecentLeads?.Any() == true)
+                    {
+                        <div class="list-group">
+                            @foreach (var lead in Model.RecentLeads)
+                            {
+                                <div class="list-group-item list-group-item-action flex-column align-items-start">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">@lead.Name</h6>
+                                        <small>@lead.CreatedAt.ToString("dd/MM/yyyy")</small>
+                                    </div>
+                                    <p class="mb-1">@lead.Phone</p>
+                                    <small>@(lead.Customer?.Name ?? "N/A")</small>
                                 </div>
-                                <p class="mb-1">@lead.Phone</p>
-                                <small>@(lead.Customer?.Name ?? "N/A")</small>
-                            </div>
-                        }
-                    </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">Aucun lead récent</div>
+                    }
                 </div>
             </div>
         </div>
@@ -246,24 +259,37 @@
             <div class="card shadow mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-white">
                     <h6 class="m-0 font-weight-bold text-success">Derniers Tickets</h6>
-                    <a asp-action="Details" asp-route-type="tickets" asp-route-date1="@Model.StartDate" asp-route-date2="@Model.EndDate" class="btn btn-sm btn-success">Voir tout</a>
+                    @if (Model.RecentTickets?.Any() == true)
+                    {
+                        <a asp-action="Details" asp-route-type="tickets" 
+                        asp-route-date1="@(Model.StartDate?.ToString("yyyy-MM-dd"))" 
+                        asp-route-date2="@(Model.EndDate?.ToString("yyyy-MM-dd"))" 
+                        class="btn btn-sm btn-success">Voir tout</a>
+                    }
                 </div>
                 <div class="card-body">
-                    <div class="list-group">
-                        @foreach (var ticket in Model.RecentTickets)
-                        {
-                            <div class="list-group-item list-group-item-action flex-column align-items-start">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h6 class="mb-1">@ticket.Subject</h6>
-                                    <span class="badge" style="background-color: @GetPriorityColor(ticket.Priority)">
-                                        @ticket.Priority
-                                    </span>
+                    @if (Model.RecentTickets?.Any() == true)
+                    {
+                        <div class="list-group">
+                            @foreach (var ticket in Model.RecentTickets)
+                            {
+                                <div class="list-group-item list-group-item-action flex-column align-items-start">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1">@ticket.Subject</h6>
+                                        <span class="badge" style="background-color: @GetPriorityColor(ticket.Priority)">
+                                            @ticket.Priority
+                                        </span>
+                                    </div>
+                                    <p class="mb-1">@Truncate(ticket.Description, 50)</p>
+                                    <small>Créé le @ticket.CreatedAt.ToString("dd/MM/yyyy")</small>
                                 </div>
-                                <p class="mb-1">@Truncate(ticket.Description, 50)</p>
-                                <small>Créé le @ticket.CreatedAt.ToString("dd/MM/yyyy")</small>
-                            </div>
-                        }
-                    </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="alert alert-info">Aucun ticket récent</div>
+                    }
                 </div>
             </div>
         </div>
@@ -345,60 +371,92 @@
         });
 
         // Expenses Breakdown Chart (Example - you'll need to adapt with your actual data)
+        // Vérifier que l'élément canvas existe
         var expenseCtx = document.getElementById('expenseChart');
-        var expenseChart = new Chart(expenseCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Dépenses Leads', 'Dépenses Tickets'],
-                datasets: [{
-                    label: "Montant",
-                    backgroundColor: "#4e73df",
-                    hoverBackgroundColor: "#2e59d9",
-                    borderColor: "#4e73df",
-                    data: [@Model.TotalExpenses, @Model.TotalExpenses], // Replace with actual data
-                }],
-            },
-            options: {
-                maintainAspectRatio: false,
-                scales: {
-                    xAxes: [{
-                        gridLines: {
-                            display: false,
-                            drawBorder: false
+        if (expenseCtx) {
+            try {
+                // Convertir les valeurs en nombres et fournir des valeurs par défaut
+                var leadExpenses = parseFloat(@Json.Serialize(Model.TotalLeadsExpenses)) || 0;
+                var ticketExpenses = parseFloat(@Json.Serialize(Model.TotalTicketExpenses)) || 0;
+
+                // Créer le graphique
+                var expenseChart = new Chart(expenseCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Dépenses Leads', 'Dépenses Tickets'],
+                        datasets: [{
+                            label: "Montant (€)",
+                            backgroundColor: ["#4e73df", "#1cc88a"], // Couleurs différentes pour chaque barre
+                            hoverBackgroundColor: ["#2e59d9", "#17a673"],
+                            borderColor: ["#4e73df", "#1cc88a"],
+                            borderWidth: 1,
+                            data: [leadExpenses, ticketExpenses],
+                        }],
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            xAxes: [{
+                                gridLines: {
+                                    display: false,
+                                    drawBorder: false
+                                },
+                                ticks: {
+                                    maxRotation: 45,
+                                    minRotation: 45
+                                }
+                            }],
+                            yAxes: [{
+                                ticks: {
+                                    beginAtZero: true,
+                                    callback: function(value) {
+                                        return value.toLocaleString('fr-FR', { 
+                                            style: 'currency', 
+                                            currency: 'EUR',
+                                            minimumFractionDigits: 2,
+                                            maximumFractionDigits: 2
+                                        });
+                                    }
+                                },
+                                gridLines: {
+                                    color: "rgb(234, 236, 244)",
+                                    zeroLineColor: "rgb(234, 236, 244)",
+                                    drawBorder: false,
+                                    borderDash: [2],
+                                    zeroLineBorderDash: [2]
+                                }
+                            }],
                         },
-                        ticks: {
-                            maxRotation: 45,
-                            minRotation: 45
-                        }
-                    }],
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero: true,
-                            callback: function(value) {
-                                return value.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+                        legend: {
+                            display: false
+                        },
+                        tooltips: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    return tooltipItem.yLabel.toLocaleString('fr-FR', { 
+                                        style: 'currency', 
+                                        currency: 'EUR',
+                                        minimumFractionDigits: 2,
+                                        maximumFractionDigits: 2
+                                    });
+                                }
                             }
                         },
-                        gridLines: {
-                            color: "rgb(234, 236, 244)",
-                            zeroLineColor: "rgb(234, 236, 244)",
-                            drawBorder: false,
-                            borderDash: [2],
-                            zeroLineBorderDash: [2]
-                        }
-                    }],
-                },
-                legend: {
-                    display: false
-                },
-                tooltips: {
-                    callbacks: {
-                        label: function(tooltipItem, data) {
-                            return tooltipItem.yLabel.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+                        plugins: {
+                            datalabels: {
+                                display: false
+                            }
                         }
                     }
-                }
+                });
+            } catch (error) {
+                console.error("Erreur lors de la création du graphique:", error);
+                expenseCtx.innerHTML = '<div class="alert alert-danger">Erreur d\'affichage du graphique</div>';
             }
-        });
+        } else {
+            console.error("Élément 'expenseChart' introuvable");
+        }
 
         // Activity Chart (Example - you'll need to adapt with your actual data)
         var activityCtx = document.getElementById('activityChart');
