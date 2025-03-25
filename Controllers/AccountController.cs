@@ -32,7 +32,7 @@ namespace crmcsharp.Controllers
             {
                 Console.WriteLine("token isn't null");
                 HttpContext.Session.SetString("AuthToken", token);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("Index", "Dashboard");
             }
             else
             {
