@@ -9,6 +9,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient<AccountService>();
 
+builder.Services.AddHttpClient<BudgetService>(); // Si TicketService utilise HttpClient
+// OU
+builder.Services.AddScoped<BudgetService>(); 
 // Enregistrer le service TicketService
 builder.Services.AddHttpClient<TicketService>(); // Si TicketService utilise HttpClient
 // OU

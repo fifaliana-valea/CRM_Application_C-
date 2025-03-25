@@ -1,0 +1,479 @@
+@model DashboardViewModel
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Tableau de Bord";
+}
+
+@functions {
+    public static string GetPriorityColor(string priority)
+    {
+        return priority?.ToLower() switch
+        {
+            "high" => "#e74a3b",
+            "medium" => "#f6c23e",
+            "low" => "#1cc88a",
+            _ => "#858796",
+        };
+    }
+
+    public static string GetPriorityHoverColor(string priority)
+    {
+        return priority?.ToLower() switch
+        {
+            "high" => "#be2617",
+            "medium" => "#dda20a",
+            "low" => "#17a673",
+            _ => "#5a5c69",
+        };
+    }
+
+    public static string Truncate(string value, int maxLength)
+    {
+        if (string.IsNullOrEmpty(value)) return value;
+        return value.Length <= maxLength ? value : value.Substring(0, maxLength) + "...";
+    }
+}
+
+<div class="container-fluid">
+    <!-- Header with Date Filter -->
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h5 class="mb-0">
+                        <i class="fas fa-tachometer-alt"></i> Tableau de Bord
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <form method="get" class="form-inline">
+                        <div class="form-group mr-3">
+                            <label for="date1" class="mr-2">Du</label>
+                            <input type="date" class="form-control" id="date1" name="date1" 
+                                   value="@Model.StartDate.ToString("yyyy-MM-dd")">
+                        </div>
+                        <div class="form-group mr-3">
+                            <label for="date2" class="mr-2">Au</label>
+                            <input type="date" class="form-control" id="date2" name="date2" 
+                                   value="@Model.EndDate.ToString("yyyy-MM-dd")">
+                        </div>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-filter"></i> Filtrer
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+        <!-- Total Budget Card -->
+        <div class="col-md-4">
+            <a asp-action="Details" asp-route-type="budgets" asp-route-date1="@Model.StartDate" asp-route-date2="@Model.EndDate" class="card-link">
+                <div class="card shadow h-100 border-left-primary">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Budget Total
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    @Model.TotalBudget.ToString("C")
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-wallet fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Tickets Card -->
+        <div class="col-md-4">
+            <a asp-action="Details" asp-route-type="tickets" asp-route-date1="@Model.StartDate" asp-route-date2="@Model.EndDate" class="card-link">
+                <div class="card shadow h-100 border-left-success">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Tickets
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.TicketCount</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-ticket-alt fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+
+        <!-- Leads Card -->
+        <div class="col-md-4">
+            <a asp-action="Details" asp-route-type="leads" asp-route-date1="@Model.StartDate" asp-route-date2="@Model.EndDate" class="card-link">
+                <div class="card shadow h-100 border-left-info">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">
+                                    Leads
+                                </div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">@Model.LeadCount</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-user-tie fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+
+    <!-- Charts Row 1 -->
+    <div class="row mb-4">
+        <!-- Budget vs Expenses -->
+        <div class="col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-header bg-white py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Budget vs Dépenses</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2">
+                        <canvas id="budgetChart"></canvas>
+                    </div>
+                    <div class="mt-4 text-center small">
+                        <span class="mr-2">
+                            <i class="fas fa-circle text-primary"></i> Budget
+                        </span>
+                        <span class="mr-2">
+                            <i class="fas fa-circle text-danger"></i> Dépenses
+                        </span>
+                        <span class="mr-2">
+                            <i class="fas fa-circle text-success"></i> Solde
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Priority Distribution -->
+        <div class="col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-header bg-white py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Répartition des Priorités</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-pie pt-4 pb-2">
+                        <canvas id="priorityChart"></canvas>
+                    </div>
+                    <div class="mt-4 text-center small">
+                        @foreach (var stat in Model.PriorityStats)
+                        {
+                            <span class="mr-2">
+                                <i class="fas fa-circle" style="color: @GetPriorityColor(stat.Priority)"></i> @stat.Priority
+                            </span>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Charts Row 2 -->
+    <div class="row mb-4">
+        <!-- Expenses Breakdown -->
+        <div class="col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-header bg-white py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Répartition des Dépenses</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-bar pt-4 pb-2">
+                        <canvas id="expenseChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Activity -->
+        <div class="col-md-6">
+            <div class="card shadow h-100">
+                <div class="card-header bg-white py-3 d-flex flex-row align-items-center justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Activité Récente</h6>
+                </div>
+                <div class="card-body">
+                    <div class="chart-area">
+                        <canvas id="activityChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Items -->
+    <div class="row">
+        <!-- Recent Leads -->
+        <div class="col-md-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-white">
+                    <h6 class="m-0 font-weight-bold text-info">Derniers Leads</h6>
+                    <a asp-action="Details" asp-route-type="leads" asp-route-date1="@Model.StartDate" asp-route-date2="@Model.EndDate" class="btn btn-sm btn-info">Voir tout</a>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        @foreach (var lead in Model.RecentLeads)
+                        {
+                            <div class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">@lead.Name</h6>
+                                    <small>@lead.CreatedAt.ToString("dd/MM/yyyy")</small>
+                                </div>
+                                <p class="mb-1">@lead.Phone</p>
+                                <small>@(lead.Customer?.Name ?? "N/A")</small>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Tickets -->
+        <div class="col-md-6">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between bg-white">
+                    <h6 class="m-0 font-weight-bold text-success">Derniers Tickets</h6>
+                    <a asp-action="Details" asp-route-type="tickets" asp-route-date1="@Model.StartDate" asp-route-date2="@Model.EndDate" class="btn btn-sm btn-success">Voir tout</a>
+                </div>
+                <div class="card-body">
+                    <div class="list-group">
+                        @foreach (var ticket in Model.RecentTickets)
+                        {
+                            <div class="list-group-item list-group-item-action flex-column align-items-start">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">@ticket.Subject</h6>
+                                    <span class="badge" style="background-color: @GetPriorityColor(ticket.Priority)">
+                                        @ticket.Priority
+                                    </span>
+                                </div>
+                                <p class="mb-1">@Truncate(ticket.Description, 50)</p>
+                                <small>Créé le @ticket.CreatedAt.ToString("dd/MM/yyyy")</small>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Budget vs Expenses Chart
+        var budgetCtx = document.getElementById('budgetChart');
+        var budgetChart = new Chart(budgetCtx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Budget', 'Dépenses', 'Solde'],
+                datasets: [{
+                    data: [@Model.TotalBudget, @Model.TotalExpenses, @Model.BudgetBalance],
+                    backgroundColor: ['#4e73df', '#e74a3b', '#1cc88a'],
+                    hoverBackgroundColor: ['#2e59d9', '#be2617', '#17a673'],
+                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            var label = data.labels[tooltipItem.index] || '';
+                            var value = data.datasets[0].data[tooltipItem.index];
+                            return label + ': ' + value.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+                        }
+                    }
+                },
+                legend: {
+                    display: false
+                },
+                cutoutPercentage: 80,
+            },
+        });
+
+        // Priority Distribution Chart
+        var priorityCtx = document.getElementById('priorityChart');
+        var priorityChart = new Chart(priorityCtx, {
+            type: 'pie',
+            data: {
+                labels: [@Html.Raw(string.Join(",", Model.PriorityStats.Select(p => $"'{p.Priority}'")))],
+                datasets: [{
+                    data: [@string.Join(",", Model.PriorityStats.Select(p => p.Count))],
+                    backgroundColor: [@Html.Raw(string.Join(",", Model.PriorityStats.Select(p => $"'{GetPriorityColor(p.Priority)}'")))],
+                    hoverBackgroundColor: [@Html.Raw(string.Join(",", Model.PriorityStats.Select(p => $"'{GetPriorityHoverColor(p.Priority)}'")))],
+                    hoverBorderColor: "rgba(234, 236, 244, 1)",
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                },
+                legend: {
+                    display: false
+                },
+                cutoutPercentage: 0,
+            },
+        });
+
+        // Expenses Breakdown Chart (Example - you'll need to adapt with your actual data)
+        var expenseCtx = document.getElementById('expenseChart');
+        var expenseChart = new Chart(expenseCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Dépenses Leads', 'Dépenses Tickets'],
+                datasets: [{
+                    label: "Montant",
+                    backgroundColor: "#4e73df",
+                    hoverBackgroundColor: "#2e59d9",
+                    borderColor: "#4e73df",
+                    data: [@Model.TotalExpenses, @Model.TotalExpenses], // Replace with actual data
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        },
+                        ticks: {
+                            maxRotation: 45,
+                            minRotation: 45
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            callback: function(value) {
+                                return value.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+                            }
+                        },
+                        gridLines: {
+                            color: "rgb(234, 236, 244)",
+                            zeroLineColor: "rgb(234, 236, 244)",
+                            drawBorder: false,
+                            borderDash: [2],
+                            zeroLineBorderDash: [2]
+                        }
+                    }],
+                },
+                legend: {
+                    display: false
+                },
+                tooltips: {
+                    callbacks: {
+                        label: function(tooltipItem, data) {
+                            return tooltipItem.yLabel.toLocaleString('fr-FR', { style: 'currency', currency: 'EUR' });
+                        }
+                    }
+                }
+            }
+        });
+
+        // Activity Chart (Example - you'll need to adapt with your actual data)
+        var activityCtx = document.getElementById('activityChart');
+        var activityChart = new Chart(activityCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+                datasets: [{
+                    label: "Leads",
+                    lineTension: 0.3,
+                    backgroundColor: "rgba(78, 115, 223, 0.05)",
+                    borderColor: "rgba(78, 115, 223, 1)",
+                    pointRadius: 3,
+                    pointBackgroundColor: "rgba(78, 115, 223, 1)",
+                    pointBorderColor: "rgba(78, 115, 223, 1)",
+                    pointHoverRadius: 3,
+                    pointHoverBackgroundColor: "rgba(78, 115, 223, 1)",
+                    pointHoverBorderColor: "rgba(78, 115, 223, 1)",
+                    pointHitRadius: 10,
+                    pointBorderWidth: 2,
+                    data: [0, 10, 5, 15, 10, 20, 15, 25, 20, 30, 25, 40],
+                }, {
+                    label: "Tickets",
+                    lineTension: 0.3,
+                    backgroundColor: "rgba(28, 200, 138, 0.05)",
+                    borderColor: "rgba(28, 200, 138, 1)",
+                    pointRadius: 3,
+                    pointBackgroundColor: "rgba(28, 200, 138, 1)",
+                    pointBorderColor: "rgba(28, 200, 138, 1)",
+                    pointHoverRadius: 3,
+                    pointHoverBackgroundColor: "rgba(28, 200, 138, 1)",
+                    pointHoverBorderColor: "rgba(28, 200, 138, 1)",
+                    pointHitRadius: 10,
+                    pointBorderWidth: 2,
+                    data: [0, 5, 10, 8, 15, 12, 20, 18, 25, 22, 30, 35],
+                }],
+            },
+            options: {
+                maintainAspectRatio: false,
+                scales: {
+                    xAxes: [{
+                        gridLines: {
+                            display: false,
+                            drawBorder: false
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            maxTicksLimit: 5
+                        },
+                        gridLines: {
+                            color: "rgb(234, 236, 244)",
+                            zeroLineColor: "rgb(234, 236, 244)",
+                            drawBorder: false,
+                            borderDash: [2],
+                            zeroLineBorderDash: [2]
+                        }
+                    }],
+                },
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                tooltips: {
+                    backgroundColor: "rgb(255,255,255)",
+                    bodyFontColor: "#858796",
+                    borderColor: '#dddfeb',
+                    borderWidth: 1,
+                    xPadding: 15,
+                    yPadding: 15,
+                    displayColors: false,
+                    caretPadding: 10,
+                }
+            }
+        });
+    </script>
+}
