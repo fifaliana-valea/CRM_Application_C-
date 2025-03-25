@@ -69,7 +69,8 @@
     <div class="row mb-4">
         <!-- Total Budget Card -->
         <div class="col-md-4">
-            <a asp-action="Details" asp-route-type="budgets" asp-route-date1="@Model.StartDate" asp-route-date2="@Model.EndDate" class="card-link">
+            <a asp-action="Details" asp-route-type="budgets" asp-route-date1="@(Model.StartDate?.ToString("yyyy-MM-dd"))" 
+                        asp-route-date2="@(Model.EndDate?.ToString("yyyy-MM-dd"))"  class="card-link">
                 <div class="card shadow h-100 border-left-primary">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -92,7 +93,9 @@
 
         <!-- Tickets Card -->
         <div class="col-md-4">
-            <a asp-action="Details" asp-route-type="tickets" asp-route-date1="@Model.StartDate" asp-route-date2="@Model.EndDate" class="card-link">
+            <a <a asp-action="Details" asp-route-type="tickets" 
+                        asp-route-date1="@(Model.StartDate?.ToString("yyyy-MM-dd"))" 
+                        asp-route-date2="@(Model.EndDate?.ToString("yyyy-MM-dd"))"  class="card-link">
                 <div class="card shadow h-100 border-left-success">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
@@ -113,7 +116,9 @@
 
         <!-- Leads Card -->
         <div class="col-md-4">
-            <a asp-action="Details" asp-route-type="leads" asp-route-date1="@Model.StartDate" asp-route-date2="@Model.EndDate" class="card-link">
+            <a <a asp-action="Details" asp-route-type="leads" 
+                        asp-route-date1="@(Model.StartDate?.ToString("yyyy-MM-dd"))" 
+                        asp-route-date2="@(Model.EndDate?.ToString("yyyy-MM-dd"))"  class="card-link">
                 <div class="card shadow h-100 border-left-info">
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
