@@ -5,23 +5,13 @@
     ViewData["Title"] = "Détails du Lead";
 }
 
-<div class="container-fluid px-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="mt-4">
-            <i class="fas fa-user-tie me-2"></i>Détails du Lead #@Model.Id
-        </h1>
-        <div>
-            <a asp-action="Index" class="btn btn-outline-secondary">
-                <i class="fas fa-arrow-left me-1"></i> Retour à la liste
-            </a>
-        </div>
-    </div>
+<div class="container mt-4">
+    <h4 class="display-4 text-dark">Détails du Lead</h4>
 
-    <!-- Notifications -->
     @if (TempData["Message"] != null)
     {
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fas fa-check-circle me-2"></i> @TempData["Message"]
+            @TempData["Message"]
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
@@ -29,222 +19,98 @@
     @if (TempData["Error"] != null)
     {
         <div class="alert alert-danger alert-dismissible fade show" role="alert">
-            <i class="fas fa-exclamation-circle me-2"></i> @TempData["Error"]
+            @TempData["Error"]
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     }
 
-    <div class="row">
-        <!-- Carte principale des informations -->
-        <div class="col-lg-8">
-            <div class="card shadow-sm mb-4">
-                <div class="card-header bg-white py-3">
-                    <h5 class="mb-0">
-                        <i class="fas fa-info-circle me-2"></i>Informations générales
-                    </h5>
-                </div>
-                <div class="card-body">
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label text-muted small">Nom complet</label>
-                                <div class="fs-5">@Model.Name</div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label text-muted small">Statut</label>
-                                <div>
-                                    <span class="badge rounded-pill 
-                                          @(Model.Status == "Nouveau" ? "bg-primary" : 
-                                            Model.Status == "En cours" ? "bg-warning text-dark" : 
-                                            Model.Status == "Terminé" ? "bg-success" : 
-                                            "bg-secondary")">
-                                        @Model.Status
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-3">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label text-muted small">Téléphone</label>
-                                <div class="fs-5">
-                                    <a href="tel:@Model.Phone" class="text-decoration-none">
-                                        <i class="fas fa-phone-alt me-2"></i>@Model.Phone
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label text-muted small">Date de création</label>
-                                <div class="fs-5">
-                                    <i class="far fa-calendar-alt me-2"></i>@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label text-muted small">Manager</label>
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar-sm me-2">
-                                        <div class="avatar-title bg-light-primary rounded-circle">
-                                            <i class="fas fa-user-tie text-primary"></i>
-                                        </div>
-                                    </div>
-                                    <span class="fs-5">@Model.User.Username</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="mb-3">
-                                <label class="form-label text-muted small">Employé assigné</label>
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar-sm me-2">
-                                        <div class="avatar-title bg-light-info rounded-circle">
-                                            <i class="fas fa-user text-info"></i>
-                                        </div>
-                                    </div>
-                                    <span class="fs-5">@Model.Employee.Username</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    <div class="card mb-4 border-0 shadow-sm">
+        <div class="card-header bg-light text-dark">
+            <h4 class="mb-0">Lead #@Model.Id</h4>
         </div>
+        <div class="card-body bg-white">
+            <div class="row">
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4 text-secondary">Nom</dt>
+                        <dd class="col-sm-8 text-dark">@Model.Name</dd>
 
-        <!-- Carte client -->
-        <div class="col-lg-4">
-            <div class="card shadow-sm mb-4">
-                <div class="card-header bg-white py-3">
-                    <h5 class="mb-0">
-                        <i class="fas fa-building me-2"></i>Client associé
-                    </h5>
+                        <dt class="col-sm-4 text-secondary">Statut</dt>
+                        <dd class="col-sm-8">
+                            <span class="badge bg-@(Model.Status == "Actif" ? "success" : "warning")">
+                                @Model.Status
+                            </span>
+                        </dd>
+
+                        <dt class="col-sm-4 text-secondary">Téléphone</dt>
+                        <dd class="col-sm-8">
+                            <a href="tel:@Model.Phone" class="text-decoration-none text-dark">
+                                @Model.Phone
+                            </a>
+                        </dd>
+
+                        <dt class="col-sm-4 text-secondary">Date de création</dt>
+                        <dd class="col-sm-8 text-dark">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</dd>
+                    </dl>
                 </div>
-                <div class="card-body">
-                    <div class="d-flex align-items-center mb-3">
-                        <div class="avatar-lg me-3">
-                            <div class="avatar-title bg-light-success rounded-circle">
-                                <i class="fas fa-building text-success"></i>
-                            </div>
-                        </div>
-                        <div>
-                            <h5 class="mb-0">@Model.Customer.Name</h5>
-                            <span class="text-muted">Client</span>
-                        </div>
-                    </div>
-                    <!-- Vous pouvez ajouter plus d'informations client ici si disponible -->
+                <div class="col-md-6">
+                    <dl class="row">
+                        <dt class="col-sm-4 text-secondary">Manager</dt>
+                        <dd class="col-sm-8 text-dark">
+                            <i class="bi bi-person-fill text-secondary"></i> @Model.User.Username
+                        </dd>
+
+                        <dt class="col-sm-4 text-secondary">Employé</dt>
+                        <dd class="col-sm-8 text-dark">
+                            <i class="bi bi-person-badge text-secondary"></i> @Model.Employee.Username
+                        </dd>
+
+                        <dt class="col-sm-4 text-secondary">Client</dt>
+                        <dd class="col-sm-8 text-dark">
+                            <i class="bi bi-building text-secondary"></i> @Model.Customer.Name
+                        </dd>
+                    </dl>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Section Dépenses -->
-    <div class="card shadow-sm mb-4">
-        <div class="card-header bg-white py-3 d-flex justify-content-between align-items-center">
-            <h5 class="mb-0">
-                <i class="fas fa-money-bill-wave me-2"></i>Dépenses associées
-            </h5>
-            <a asp-action="Create" asp-controller="LeadExpense" asp-route-leadId="@Model.Id" class="btn btn-sm btn-primary">
-                <i class="fas fa-plus me-1"></i> Ajouter une dépense
-            </a>
+    <div class="card mb-4 border-0 shadow-sm">
+        <div class="card-header bg-light text-dark">
+            <h4 class="mb-0">Dépenses associées</h4>
         </div>
-        <div class="card-body">
+        <div class="card-body bg-white">
             @if (ViewBag.LatestExpense != null)
             {
-                <div class="row align-items-center">
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label text-muted small">Montant</label>
-                            <div class="fs-4 fw-bold text-success">
-                                @ViewBag.LatestExpense.Amount.ToString("C")
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="mb-3">
-                            <label class="form-label text-muted small">Dernière mise à jour</label>
-                            <div>
-                                <i class="far fa-clock me-2"></i>@DateTime.Now.ToString("dd/MM/yyyy HH:mm")
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4 text-end">
-                        <a asp-action="Edit" asp-route-id="@ViewBag.LatestExpense.Id" asp-controller="LeadExpense" 
-                           class="btn btn-outline-primary">
-                            <i class="fas fa-eye me-1"></i> Voir les détails
-                        </a>
-                    </div>
+                <dl class="row">
+                    <dt class="col-sm-2 text-secondary">Montant:</dt>
+                    <dd class="col-sm-10 fs-5 fw-bold text-success">
+                        @ViewBag.LatestExpense.Amount.ToString("C")
+                    </dd>
+                </dl>
+                <div class="d-flex justify-content-end">
+                    <a asp-action="Edit" asp-route-id="@ViewBag.LatestExpense.Id" asp-controller="LeadExpense" 
+                       class="btn btn-outline-secondary">
+                        <i class="bi bi-eye-fill"></i> Voir les détails
+                    </a>
                 </div>
             }
             else
             {
-                <div class="alert alert-info">
-                    <i class="fas fa-info-circle me-2"></i>Aucune dépense enregistrée pour ce lead.
+                <div class="alert alert-light border">
+                    Aucune dépense associée à ce lead.
                 </div>
             }
         </div>
     </div>
 
-    <!-- Actions -->
-    <div class="d-flex justify-content-between">
+    <div class="d-flex justify-content-between mt-4">
+        <a asp-action="Index" class="btn btn-light border">
+            <i class="bi bi-arrow-left text-secondary"></i> Retour à la liste
+        </a>
         <div>
-            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning me-2">
-                <i class="fas fa-edit me-1"></i> Modifier
-            </a>
-            <a href="#" class="btn btn-outline-secondary me-2">
-                <i class="fas fa-file-pdf me-1"></i> Exporter en PDF
-            </a>
+            <!-- Ajoutez ici d'autres boutons d'action si nécessaire -->
         </div>
-        <form asp-action="Delete" method="post" onsubmit="return confirm('Êtes-vous sûr de vouloir supprimer ce lead ?');">
-            <input type="hidden" name="id" value="@Model.Id" />
-            <button type="submit" class="btn btn-danger">
-                <i class="fas fa-trash-alt me-1"></i> Supprimer
-            </button>
-        </form>
     </div>
 </div>
 
-@section Styles {
-    <style>
-        .avatar-sm {
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .avatar-lg {
-            width: 48px;
-            height: 48px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .avatar-title {
-            width: 100%;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        
-        .card {
-            border: none;
-            border-radius: 10px;
-        }
-        
-        .card-header {
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-        }
-    </style>
-}
