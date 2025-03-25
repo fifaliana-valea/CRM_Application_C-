@@ -9,72 +9,98 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 </head>
 <body>
-    <!-- Top Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary top-navbar shadow">
-        <div class="container-fluid">
-            <a class="navbar-brand fw-bold" asp-controller="Home" asp-action="Index">
-                <i class="fas fa-cog me-2"></i>CRM 
-            </a>
+    <div class="wrapper">
+        <!-- Sidebar -->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-cog me-2"></i>CRM</h3>
+            </div>
             
-            <div class="collapse navbar-collapse" id="mainNavbar">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item mx-1">
-                        <a class="nav-link px-3" asp-controller="Home" asp-action="Index">
-                            <i class="fas fa-home me-1"></i> Dashboard
-                        </a>
-                    </li>
-                    <li class="nav-item mx-1">
-                        <a class="nav-link px-3" asp-controller="Ticket" asp-action="Index">
-                            <i class="fas fa-ticket-alt me-1"></i> Tickets
-                        </a>
-                    </li>
-                    <li class="nav-item mx-1">
-                        <a class="nav-link px-3" asp-controller="Lead" asp-action="Index">
-                            <i class="fas fa-lead-alt me-1"></i> Leads
-                        </a>
-                    </li>
-                    <li class="nav-item mx-1">
-                        <a class="nav-link px-3" asp-controller="RateConfigMvc" asp-action="Index">
-                            <i class="fas fa-chart-line me-1"></i> Rate Config
-                        </a>
-                    </li>
-                </ul>
-                
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item mx-1">
-                        <a class="nav-link px-3 text-warning" asp-controller="Account" asp-action="Logout">
-                            <i class="fas fa-sign-out-alt me-1"></i> Logout
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+            <ul class="list-unstyled components">
+                <li class="nav-item">
+                    <a asp-controller="Dashboard" asp-action="Index">
+                        <i class="fas fa-home"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-controller="Ticket" asp-action="Index">
+                        <i class="fas fa-ticket-alt"></i>
+                        <span>Tickets</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-controller="Lead" asp-action="Index">
+                        <i class="fas fa-user-tie"></i>
+                        <span>Leads</span>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-controller="RateConfigMvc" asp-action="Index">
+                        <i class="fas fa-chart-line"></i>
+                        <span>Rate Config</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
 
-    <!-- Main Content -->
-    <div class="container-fluid main-content">
-        <main role="main" class="py-4">
-            @RenderBody()
-        </main>
+        <!-- Page Content -->
+        <div id="content">
+            <!-- Top Navigation Bar -->
+            <nav class="navbar navbar-expand-lg top-navbar">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
+                                    <i class="fas fa-user-circle me-1"></i> Mon compte
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end">
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item text-danger" asp-controller="Account" asp-action="Logout"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+
+            <!-- Main Content -->
+            <div class="container-fluid py-4">
+                <main role="main">
+                    @RenderBody()
+                </main>
+            </div>
+
+            <!-- Footer -->
+            <footer class="footer py-3">
+                <div class="container-fluid">
+                    <div class="row align-items-center">
+                        <div class="col-md-6">
+                            &copy; 2025 CRM Professional - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        </div>
+                        <div class="col-md-6 text-md-end">
+                            <small class="text-muted">v2.1.0 | @DateTime.Now.ToString("MMM dd, yyyy")</small>
+                        </div>
+                    </div>
+                </div>
+            </footer>
+        </div>
     </div>
-
-    <!-- Footer -->
-    <footer class="footer bg-light py-3 border-top">
-        <div class="container-fluid">
-            <div class="row align-items-center">
-                <div class="col-md-6">
-                    &copy; 2025 CRM Professional - <a asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </div>
-                <div class="col-md-6 text-md-end">
-                    <small class="text-muted">v2.1.0 | @DateTime.Now.ToString("MMM dd, yyyy")</small>
-                </div>
-            </div>
-        </div>
-    </footer>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script>
+        $(document).ready(function () {
+            $('#sidebarCollapse').on('click', function () {
+                $('#sidebar').toggleClass('collapsed');
+            });
+        });
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
