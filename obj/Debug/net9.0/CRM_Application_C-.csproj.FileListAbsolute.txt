@@ -18,7 +18,6 @@ E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\CRM_Application_C-.sourceli
 E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\scopedcss\Views\Shared\_Layout.cshtml.rz.scp.css
 E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\scopedcss\bundle\CRM_Application_C-.styles.css
 E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\scopedcss\projectbundle\CRM_Application_C-.bundle.scp.css
-E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\e3y2r37grv-b9sayid5wm.gz
 E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\rnnhdqy853-61n19gt1b8.gz
 E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\4ebmisn186-xtxxf3hu2r.gz
 E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\pvyh886km3-c2jlpeoesf.gz
@@ -97,5 +96,9 @@ E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\xo1pfnyckw-m9qm4
 E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\ppbrm7kvwo-jjsuc0puko.gz
 E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\g6md9ji25w-9vr69e8ynj.gz
 E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\CRM_Appl.DBC8D786.Up2Date
-E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\8eufd179xb-r7mebgu46p.gz
-E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\r8lg61733s-r7mebgu46p.gz
+E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\e3y2r37grv-ez78f8wbyu.gz
+E:\S5\Evaluation\CRM_Application_C-\bin\Debug\net9.0\Microsoft.AspNetCore.OpenApi.dll
+E:\S5\Evaluation\CRM_Application_C-\bin\Debug\net9.0\Microsoft.OpenApi.dll
+E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\CRM_Application_C-.MvcApplicationPartsAssemblyInfo.cs
+E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\8eufd179xb-vrerajv97e.gz
+E:\S5\Evaluation\CRM_Application_C-\obj\Debug\net9.0\compressed\r8lg61733s-vrerajv97e.gz

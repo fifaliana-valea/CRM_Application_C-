@@ -1,0 +1,65 @@
+@model crmcsharp.Models.entity.TriggerLeadHisto
+
+
+@{
+    Layout = "_Layout";
+    ViewData["Title"] = "Détails du Lead";
+}
+
+<h1>Détails du Lead</h1>
+
+@if (TempData["Message"] != null)
+{
+        <div class="alert alert-success">
+        @TempData["Message"]
+        </div>
+}
+
+@if (TempData["Error"] != null)
+{
+        <div class="alert alert-danger">
+        @TempData["Error"]
+        </div>
+}
+
+<div>
+    <h4>Lead @Model.Id</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Nom</dt>
+        <dd class="col-sm-10">@Model.Name</dd>
+
+        <dt class="col-sm-2">Statut</dt>
+        <dd class="col-sm-10">@Model.Status</dd>
+
+        <dt class="col-sm-2">Phone</dt>
+        <dd class="col-sm-10">@Model.Phone</dd>
+
+        <dt class="col-sm-2">Manager</dt>
+        <dd class="col-sm-10">@Model.User.Username</dd>
+
+        <dt class="col-sm-2">Employee</dt>
+        <dd class="col-sm-10">@Model.Employee.Username</dd>
+
+        <dt class="col-sm-2">Client</dt>
+        <dd class="col-sm-10">@Model.Customer.Name</dd>
+
+        <dt class="col-sm-2">Date de création</dt>
+        <dd class="col-sm-10">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</dd>
+    </dl>
+</div>
+<div>
+    <h4>Expense Lead N : @Model.Id</h4>
+    <dt class="col-sm-4">Montant:</dt>
+    <dd class="col-sm-8">@ViewBag.LatestExpense.Amount.ToString("C")</dd>
+    <a asp-action="Edit" asp-route-id="@ViewBag.LatestExpense.Id" asp-controller="LeadExpense" class="btn btn-info">Voir les détails</a>
+</div>
+
+
+
+
+
+
+<div>
+    <a asp-action="Index" class="btn btn-secondary">Retour a la liste</a>
+</div>
