@@ -41,35 +41,38 @@ public class DashboardController : Controller
     {
         try
         {
-            date1 ??= DateTime.Now.AddDays(-30);
-            date2 ??= DateTime.Now;
+            // Définir les dates de début et de fin
+            DateTime startDate = date1 ?? DateTime.MinValue;
+            DateTime endDate = date2 ?? DateTime.MaxValue;
 
-            if (date1 > date2)
+            // Inverser si date1 > date2
+            if (startDate > endDate)
             {
-                TempData["ErrorMessage"] = "La date de début doit être antérieure à la date de fin";
-                return RedirectToAction("Index", new { date1 = date2, date2 = date1 });
+                (startDate, endDate) = (endDate, startDate);
             }
 
-            var leadsTask = _leadService.GetDateAsync(date1.Value, date2.Value);
-            var ticketsTask = _ticketService.GetDateAsync(date1.Value, date2.Value);
-            var budgetsTask = _budgetService.GetBudgetsBetweenDatesAsync(date1.Value, date2.Value);
-            var totalExpensesLeads = _leadExpenseService.GetDateAsync(date1.Value, date2.Value);
-            var totalExpensesTickets = _ticketExpenseService.GetDateAsync(date1.Value,date2.Value);
+            // Lancer toutes les tâches en parallèle
+            var leadsTask = _leadService.GetDateAsync(startDate, endDate);
+            var ticketsTask = _ticketService.GetDateAsync(startDate, endDate);
+            var budgetsTask = _budgetService.GetBudgetsBetweenDatesAsync(startDate, endDate);
+            var leadExpensesTask = _leadExpenseService.GetDateAsync(startDate, endDate);
+            var ticketExpensesTask = _ticketExpenseService.GetDateAsync(startDate, endDate);
 
-            await Task.WhenAll(leadsTask, ticketsTask, budgetsTask);
+            await Task.WhenAll(leadsTask, ticketsTask, budgetsTask, leadExpensesTask, ticketExpensesTask);
 
-            // Correction des erreurs CS0019 - Conversion explicite des types
+            // Récupérer les résultats
             var leads = await leadsTask;
             var tickets = await ticketsTask;
             var budgets = await budgetsTask;
+            decimal totalLeadExpense = await leadExpensesTask;
+            decimal totalTicketExpense = await ticketExpensesTask;
 
+            // Calculs
             decimal totalBudget = budgets.Sum(b => b?.Amount ?? 0);
-            decimal totalLeadExpense = await totalExpensesLeads;
-            decimal totalTicketExpense = await totalExpensesTickets;
             decimal totalExpenses = totalLeadExpense + totalTicketExpense;
             decimal budgetBalance = totalBudget - totalExpenses;
 
-            // Correction des erreurs CS0428 - Ajout des parenthèses pour Count()
+            // Statistiques des priorités
             var priorityStats = tickets
                 .Where(t => !string.IsNullOrEmpty(t.Priority))
                 .GroupBy(t => t.Priority)
@@ -77,17 +80,18 @@ public class DashboardController : Controller
                 {
                     Priority = g.Key,
                     Count = g.Count(),
-                    Percentage = (decimal)g.Count() / tickets.Count() * 100
+                    Percentage = (decimal)g.Count() / tickets.Count * 100
                 })
                 .OrderByDescending(s => s.Count)
                 .ToList();
 
+            // Création du modèle pour la vue
             var model = new DashboardViewModel
             {
-                StartDate = date1.Value,
-                EndDate = date2.Value,
-                LeadCount = leads.Count, // Utilisation de la propriété Count au lieu de Count()
-                TicketCount = tickets.Count, // Utilisation de la propriété Count au lieu de Count()
+                StartDate = startDate,
+                EndDate = endDate,
+                LeadCount = leads.Count,
+                TicketCount = tickets.Count,
                 BudgetCount = budgets.Count,
                 TotalBudget = totalBudget,
                 TotalExpenses = totalExpenses,
@@ -104,10 +108,12 @@ public class DashboardController : Controller
         catch (Exception ex)
         {
             _logger.LogError(ex, "Erreur dans DashboardController");
-            TempData["ErrorMessage"] = "Une erreur est survenue lors du chargement du dashboard";
+            TempData["ErrorMessage"] = "Une erreur est survenue lors du chargement du dashboard.";
             return RedirectToAction("Error", "Home");
         }
     }
+
+ 
     public async Task<IActionResult> Details(string type,DateTime? date1, DateTime? date2)
     {
         try
