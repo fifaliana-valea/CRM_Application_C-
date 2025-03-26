@@ -52,11 +52,11 @@ public class DashboardController : Controller
             }
 
             // Lancer toutes les tâches en parallèle
-            var leadsTask = _leadService.GetDateAsync(startDate, endDate);
-            var ticketsTask = _ticketService.GetDateAsync(startDate, endDate);
-            var budgetsTask = _budgetService.GetBudgetsBetweenDatesAsync(startDate, endDate);
-            var leadExpensesTask = _leadExpenseService.GetDateAsync(startDate, endDate);
-            var ticketExpensesTask = _ticketExpenseService.GetDateAsync(startDate, endDate);
+            var leadsTask = _leadService.GetLeadsAsync();
+            var ticketsTask = _ticketService.GetTicketsAsync();
+            var budgetsTask = _budgetService.GetBudgetsBetweenDatesAsync();
+            var leadExpensesTask = _leadExpenseService.GetDateAsync();
+            var ticketExpensesTask = _ticketExpenseService.GetDateAsync();
 
             await Task.WhenAll(leadsTask, ticketsTask, budgetsTask, leadExpensesTask, ticketExpensesTask);
 
@@ -128,15 +128,17 @@ public class DashboardController : Controller
             {
 
                 case "leads":
-                    var leads = await _leadService.GetDateAsync(date1.Value, date2.Value);;
+                    var leads = await _leadService.GetLeadsAsync();
+                    // var leads = await _leadService.GetDateAsync(date1.Value, date2.Value);;
                     return View("Lead", leads);
 
                 case "tickets":
-                    var tickets = await _ticketService.GetDateAsync(date1.Value, date2.Value);
+                    var tickets = await _ticketService.GetTicketsAsync();
+                    // var tickets = await _ticketService.GetDateAsync(date1.Value, date2.Value);
                     return View("Ticket", tickets);
 
                 case "budgets":
-                    var budgets = await _budgetService.GetBudgetsBetweenDatesAsync(date1.Value, date2.Value);
+                    var budgets = await _budgetService.GetBudgetsBetweenDatesAsync();
                     return View("Budget", budgets);
 
                 default:

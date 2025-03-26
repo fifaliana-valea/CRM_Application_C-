@@ -140,19 +140,11 @@ namespace crmcsharp.Services
             }
         }
 
-        public async Task<decimal> GetDateAsync(DateTime date1, DateTime date2)
+        public async Task<decimal> GetDateAsync()
         {
             try
             {
-                // Convertir en UTC pour éviter les problèmes de timezone
-                DateTime utcDate1 = date1.ToUniversalTime();
-                DateTime utcDate2 = date2.ToUniversalTime();
-
-                // Formatage des dates en ISO 8601 sans fractions de seconde
-                string date1Str = utcDate1.ToString("yyyy-MM-ddTHH:mm:ssZ");
-                string date2Str = utcDate2.ToString("yyyy-MM-ddTHH:mm:ssZ");
-
-                string url = $"total?date1={Uri.EscapeDataString(date1Str)}&date2={Uri.EscapeDataString(date2Str)}";
+                string url = $"total";
 
                 HttpResponseMessage response = await _httpClient.GetAsync(url);
 
@@ -166,8 +158,6 @@ namespace crmcsharp.Services
                     NullValueHandling = NullValueHandling.Ignore,
                     MissingMemberHandling = MissingMemberHandling.Ignore,
                     DateTimeZoneHandling = DateTimeZoneHandling.Utc,
-                    // Format cohérent avec le format d'envoi
-                    DateFormatString = "yyyy-MM-ddTHH:mm:ssZ" 
                 };
 
                 return JsonConvert.DeserializeObject<decimal>(responseContent, settings);
