@@ -17,14 +17,11 @@ namespace crmcsharp.Services
             _httpClient.BaseAddress = new Uri("http://localhost:8080/api/budget/");
         }
 
-        public async Task<List<Budget>> GetBudgetsBetweenDatesAsync(DateTime date1, DateTime date2)
+        public async Task<List<Budget>> GetBudgetsBetweenDatesAsync()
         {
             try
             {
-                string date1Str = date1.ToString("yyyy-MM-dd");
-                string date2Str = date2.ToString("yyyy-MM-dd");
-                
-                string url = $"condition?date1={Uri.EscapeDataString(date1Str)}&date2={Uri.EscapeDataString(date2Str)}";
+                string url = $"condition";
 
                 HttpResponseMessage response = await _httpClient.GetAsync(url);
                 response.EnsureSuccessStatusCode();
